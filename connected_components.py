@@ -2,11 +2,25 @@
 
 import sys
 
+def explore(adj,x,visited):
+    for i in adj[x]:
+        if not visited[i]:
+            visited[i] = True
+            explore(adj,i,visited)
+    return visited
 
-def number_of_components(adj):
-    result = 0
+
+def number_of_components(adj):    
     #write your code here
-    return result
+    visited = [False] * len(adj)
+    count = 0
+    for i in range(len(adj)):
+        if not visited[i]:
+            count += 1
+            explore(adj,i,visited)
+            
+    
+    return count
 
 if __name__ == '__main__':
     input = sys.stdin.read()
