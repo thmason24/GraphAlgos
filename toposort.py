@@ -3,14 +3,21 @@
 import sys
 
 def dfs(adj, used, order, x):
-    #write your code here
-    pass
+    used[x] = 1
+    for i in adj[x]:
+        if not used[i]:
+            dfs(adj,used,order,i)
+    order.insert(0,x)
+    return
 
 
 def toposort(adj):
     used = [0] * len(adj)
     order = []
     #write your code here
+    for i in range(len(adj)):
+        if not used[i]:
+            dfs(adj,used,order,i)
     return order
 
 if __name__ == '__main__':
