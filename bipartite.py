@@ -3,9 +3,34 @@
 import sys
 import queue
 
+
 def bipartite(adj):
-    #write your code here
-    return -1
+    #perform breadth first search.   at each level, tag each discovered element with alternating tag of 
+    # one or two to mark the two regions, initialize to zeros to inidicate undiscovered.   
+    #if It's biparite,  we shouldn't see connected nodes of the same tag as the source
+
+    #we'll need a queue
+    q = queue.Queue()    
+    #initialize all vertices to zero (undiscovered)
+    tag = len(adj) * [0]
+    #initialize first vertex with tag 1
+    #and add to Queue
+    tag[0] = 1
+    q.put(0)
+    while not q.empty():
+        u = q.get()
+        for i in adj[u]:
+            #check if tag is the same as u, if it is, the graph is not bipartite
+            if tag[i] == tag[u]:
+                return 0  #tag is not bipartite since tag(u) = tag(i)
+            elif tag[i] == 0:
+                q.put(i)  #if undiscovered, add to queue for processing
+                if tag[u] == 1:
+                    tag[i] = 2
+                else:
+                    tag[i] = 1
+
+    return 1
 
 if __name__ == '__main__':
     input = sys.stdin.read()
