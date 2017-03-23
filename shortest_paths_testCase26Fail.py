@@ -2,16 +2,6 @@
 
 import sys
 
-#explore for marking shortest paths from negative cycle nodes 
-def explore(adj,x,visited,shortest):
-    for i in adj[x]:
-        if not visited[i]:
-            visited[i] = True
-            shortest[i] = 0
-            explore(adj,i,visited,shortest)
-    return
-
-
 def innerLoop(s,adj,dist,prev):
     
     for j in range(len(adj)):
@@ -45,18 +35,15 @@ def shortet_paths(adj, cost, s, dist, reachable, shortest, prev):
         #follow node back V times.   all along the way will be on shortest path
         for j in range(len(adj)):
             nextV = prev[nextV]
+            shortest[nextV] = 0
         shortest[nextV] = 0
-        
-        #now explore all nodes from here since they will all be down path from a negative cycle
-        visited = [False] * len(adj)        
-        explore(adj,nextV,visited,shortest)
-        
-#        y = nextV
-#        while True:
-#            nextV = prev[nextV]
-#            if nextV == y:
-#                break
-#            shortest[nextV] = 0
+        #now move back around cycle until repeats to get remaining vertices
+        y = nextV
+        while True:
+            nextV = prev[nextV]
+            if nextV == y:
+                break
+            shortest[nextV] = 0
             
             
         
